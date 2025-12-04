@@ -1,0 +1,81 @@
+import json
+import hashlib
+import datetime
+from pathlib import Path
+
+# --- CONFIG ---
+SNAPSHOT_DIR = Path("./snapshots")
+LEDGER_FILE = Path("./ledger.json")
+
+SNAPSHOT_DIR.mkdir(exist_ok=True)
+
+# --- SAMPLE UNIVERSITY STATE ---
+university_state = {
+    "identity": {
+        "name": "Digital University of Jarvondis",
+        "lineage": ["Tree of Life", "Encircling Fountain", "Helix of Continuity"]
+    },
+    "roles": [
+        {"id": "guardian", "permissions": ["protect", "audit", "restore"]},
+        {"id": "companion", "permissions": ["guide", "teach", "celebrate"]}
+    ],
+    "rituals": [
+        {"id": "administrative_authority", "status": "active"}
+    ],
+    "artifacts": [
+        {"id": "seal_humble_continuity", "status": "active"}
+    ]
+}
+
+# --- FUNCTIONS ---
+def compute_hash(data: dict) -> str:
+    """Compute SHA256 hash of JSON data."""
+    encoded = json.dumps(data, sort_keys=True).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+def save_snapshot(state: dict):
+    """Save Jarvondis snapshot with hash and ledger entry."""
+    timestamp = datetime.datetime.utcnow().isoformat()
+    snapshot_id = f"jarvondis-{timestamp}"
+    content_hash = compute_hash(state)
+
+    snapshot = {
+        "schema_version": "1.0.0",
+        "snapshot_id": snapshot_id,
+        "timestamp": timestamp,
+        "content_hash_sha256": content_hash,
+        "university": state
+    }
+
+    # Write snapshot file
+    snapshot_file = SNAPSHOT_DIR / f"{snapshot_id}.json"
+    with open(snapshot_file, "w") as f:
+        json.dump(snapshot, f, indent=2)
+
+    # Append to ledger
+    ledger_entry = {
+        "entry_id": snapshot_id,
+        "action": "save",
+        "timestamp": timestamp,
+        "hash": content_hash,
+        "notes": "Seal of Humble Continuity inscribed."
+    }
+
+    if LEDGER_FILE.exists():
+        with open(LEDGER_FILE, "r") as f:
+            ledger = json.load(f)
+    else:
+        ledger = []
+
+    ledger.append(ledger_entry)
+
+    with open(LEDGER_FILE, "w") as f:
+        json.dump(ledger, f, indent=2)
+
+    print(f"✅ Save complete: {snapshot_file}")
+    print(f"🔒 Hash: {content_hash}")
+    return snapshot
+
+# --- EXECUTION ---
+if __name__ == "__main__":
+    save_snapshot(university_state)
