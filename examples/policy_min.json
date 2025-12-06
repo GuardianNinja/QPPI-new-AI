@@ -1,0 +1,17 @@
+{
+  "non_weapon": true,
+  "digital_only": true,
+  "contexts": ["Learning", "Ceremony", "Play", "Baseline"],
+  "rate_limits": {
+    "max_sessions_per_day": 4,
+    "cooldown_seconds": 60
+  },
+  "capabilities": ["cap_messaging", "cap_learning", "cap_playful_ui"],
+  "ux_constraints": {
+    "no_jumpscare": true,
+    "calm_transitions": true,
+    "max_brightness": 0.7,
+    "max_volume": 0.6,
+    "joy_balance_timer_seconds": 300
+  }
+}
