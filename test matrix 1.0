@@ -1,0 +1,11 @@
+for scenario in ScenarioLibrary:
+  datasets ← []
+  for clone in ["A","B","C"]:
+    forward ← runForward(scenario, seed=clone)
+    backward ← runBackward(forward.endState)
+    upside ← runOrthogonalStress(scenario)
+    parallel ← runParallelVariants(scenario, N=10)
+    datasets.append([forward, backward, upside, parallel])
+  crossCheck(datasets)
+  publishProvenance(datasets)
+end
