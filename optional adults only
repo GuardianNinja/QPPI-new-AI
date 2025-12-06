@@ -1,0 +1,22 @@
+# pip install requests paho-mqtt
+import time, hmac, hashlib, json, requests
+
+API = "https://your-api.example.com/miner/ingest"
+SECRET = "change_me"
+
+def sign(payload):
+    msg = json.dumps(payload)
+    sig = hmac.new(SECRET.encode(), msg.encode(), hashlib.sha256).hexdigest()
+    return sig, msg
+
+def read_miner_stats():
+    # TODO: connect to your miner/pool API
+    return {"hash_rate": 125.4, "uptime_sec": 86400, "payout_btc": 0.00042}
+
+while True:
+    stats = read_miner_stats()
+    payload = {"device": "raspi-01", "stats": stats, "ts": int(time.time()*1000)}
+    signature, body = sign(payload)
+    r = requests.post(API, json={"payload": payload, "signature": signature})
+    print("ingest", r.status_code)
+    time.sleep(30)
