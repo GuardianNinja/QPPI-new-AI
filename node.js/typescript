@@ -1,0 +1,122 @@
+// package.json deps: express, jsonwebtoken, crypto, uuid, cors
+import express from "express";
+import crypto from "crypto";
+import cors from "cors";
+
+const app = express();
+app.use(express.json());
+app.use(cors());
+
+type Session = {
+  playerId: string;
+  sessionId: string;
+  lastHeartbeat: number; // server epoch ms
+  earningsActive: boolean;
+  rootsMult: number;
+  boosts: Set<string>;
+  points: number;
+};
+
+const sessions = new Map<string, Session>();
+const SECRET = process.env.TICK_SIGNING_SECRET || "change_me";
+
+function verifySignature(payload: any, signature: string) {
+  const computed = crypto
+    .createHmac("sha256", SECRET)
+    .update(JSON.stringify(payload))
+    .digest("hex");
+  return crypto.timingSafeEqual(Buffer.from(computed), Buffer.from(signature));
+}
+
+function now() {
+  return Date.now();
+}
+
+function computeTick(session: Session, dtMs: number) {
+  // dt capped; session-only earnings
+  const dtSec = Math.min(dtMs / 1000, 5);
+  const baseRate = getPlayerRate(session.playerId);
+  const surge = session.boosts.has("power_surge_active") ? 2.0 : 1.0;
+  const earned = baseRate * session.rootsMult * surge * dtSec;
+  session.points += earned;
+  return earned;
+}
+
+function getPlayerRate(playerId: string) {
+  // TODO: pull from DB; placeholder deterministic base
+  return 10.0;
+}
+
+// Start session
+app.post("/session/start", (req, res) => {
+  const { playerId } = req.body;
+  if (!playerId) return res.status(400).json({ error: "playerId required" });
+
+  const sessionId = crypto.randomUUID();
+  const s: Session = {
+    playerId,
+    sessionId,
+    lastHeartbeat: now(),
+    earningsActive: true,
+    rootsMult: 1.0,
+    boosts: new Set(),
+    points: 0,
+  };
+  sessions.set(sessionId, s);
+  res.json({ sessionId });
+});
+
+// Heartbeat tick (active session-only)
+app.post("/session/heartbeat", (req, res) => {
+  const { sessionId, payload, signature } = req.body;
+  const session = sessions.get(sessionId);
+  if (!session) return res.status(404).json({ error: "session not found" });
+
+  // Verify HMAC from client
+  if (!verifySignature(payload, signature))
+    return res.status(401).json({ error: "invalid signature" });
+
+  const tNow = now();
+  const dt = tNow - session.lastHeartbeat;
+
+  // If heartbeat gap > 15s, pause earnings
+  const offlineGap = dt > 15000;
+  session.earningsActive = !offlineGap;
+
+  let earned = 0;
+  if (session.earningsActive) {
+    // Cap dt to 5 seconds (no catch-up)
+    earned = computeTick(session, dt);
+  }
+
+  session.lastHeartbeat = tNow;
+  res.json({
+    points: session.points,
+    earned,
+    earningsActive: session.earningsActive,
+    serverTime: tNow,
+  });
+});
+
+// Activate boost (cooldown handled server-side)
+app.post("/boosts/activate", (req, res) => {
+  const { sessionId, boostName } = req.body;
+  const session = sessions.get(sessionId);
+  if (!session) return res.status(404).json({ error: "session not found" });
+
+  if (boostName === "power_surge_active") {
+    // TODO: check cooldown & consume item
+    session.boosts.add(boostName);
+    setTimeout(() => session.boosts.delete(boostName), 6 * 60 * 1000); // 6 minutes
+  }
+
+  res.json({ boosts: Array.from(session.boosts) });
+});
+
+app.post("/session/end", (req, res) => {
+  const { sessionId } = req.body;
+  sessions.delete(sessionId);
+  res.json({ ok: true });
+});
+
+app.listen(8080, () => console.log("Game API listening on 8080"));
