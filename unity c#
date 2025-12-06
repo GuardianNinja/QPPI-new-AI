@@ -1,0 +1,79 @@
+using System.Collections;
+using UnityEngine;
+using UnityEngine.Networking;
+using System.Text;
+using System.Security.Cryptography;
+
+public class HeartbeatClient : MonoBehaviour
+{
+    string apiBase = "https://your-api.example.com";
+    string sessionId = "";
+    string secret = "change_me";
+
+    IEnumerator Start()
+    {
+        yield return StartSession("PLAYER_123");
+        StartCoroutine(HeartbeatLoop());
+    }
+
+    IEnumerator StartSession(string playerId)
+    {
+        var body = JsonUtility.ToJson(new StartPayload { playerId = playerId });
+        using (var req = new UnityWebRequest($"{apiBase}/session/start", "POST"))
+        {
+            byte[] bytes = Encoding.UTF8.GetBytes(body);
+            req.uploadHandler = new UploadHandlerRaw(bytes);
+            req.downloadHandler = new DownloadHandlerBuffer();
+            req.SetRequestHeader("Content-Type", "application/json");
+            yield return req.SendWebRequest();
+
+            if (req.result == UnityWebRequest.Result.Success)
+            {
+                var resp = JsonUtility.FromJson<StartResp>(req.downloadHandler.text);
+                sessionId = resp.sessionId;
+            }
+        }
+    }
+
+    IEnumerator HeartbeatLoop()
+    {
+        while (!string.IsNullOrEmpty(sessionId))
+        {
+            var payload = new HBPayload { deviceTime = System.DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() };
+            var payloadJson = JsonUtility.ToJson(payload);
+            var signature = SignHmac(payloadJson, secret);
+
+            var wrapper = new HBWrapper { sessionId = sessionId, payload = payloadJson, signature = signature };
+            var body = JsonUtility.ToJson(wrapper);
+
+            using (var req = new UnityWebRequest($"{apiBase}/session/heartbeat", "POST"))
+            {
+                byte[] bytes = Encoding.UTF8.GetBytes(body);
+                req.uploadHandler = new UploadHandlerRaw(bytes);
+                req.downloadHandler = new DownloadHandlerBuffer();
+                req.SetRequestHeader("Content-Type", "application/json");
+                yield return req.SendWebRequest();
+
+                if (req.result == UnityWebRequest.Result.Success)
+                {
+                    // Parse and update UI with points/earned/earningsActive
+                }
+            }
+            yield return new WaitForSeconds(3f); // heartbeat cadence
+        }
+    }
+
+    string SignHmac(string message, string key)
+    {
+        using (var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(key)))
+        {
+            var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(message));
+            return System.BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+        }
+    }
+
+    [System.Serializable] public class StartPayload { public string playerId; }
+    [System.Serializable] public class StartResp { public string sessionId; }
+    [System.Serializable] public class HBPayload { public long deviceTime; }
+    [System.Serializable] public class HBWrapper { public string sessionId; public string payload; public string signature; }
+}
