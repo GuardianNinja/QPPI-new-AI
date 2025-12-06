@@ -1,0 +1,17 @@
+
+---
+
+## pyproject.toml
+
+```toml
+[project]
+name = "qppi-firewall"
+version = "0.1.0"
+description = "Five Helix QPPI Firewall reference implementation"
+authors = [{ name = "Space LEAF", email = "noreply@example.org" }]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["click>=8.1.7"]
+
+[project.scripts]
+qppi-firewall = "qppi_firewall.cli:main"
