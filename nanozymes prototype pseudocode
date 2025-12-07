@@ -1,0 +1,26 @@
+# Load
+data = load_all_sources(paths)
+
+# Define axes
+gyro_axes = ["efficacy", "safety", "reproducibility"]
+control_axes = ["dose", "duration", "cohort", "protocol_version"]
+
+# Sequential
+seq = sort_by_time(data)
+seq_metrics = analyze_transitions(seq, gyro_axes, control_axes)
+
+# Nonsequential
+perm_sets = generate_permutations(data, n=100)
+boot_sets = bootstrap(data, n=1000)
+nonseq_metrics = evaluate_order_dependence(perm_sets, boot_sets, gyro_axes)
+
+# Forward loop
+forward_results = forward_chain(seq, feature_map="clinical+lab", checks=["residuals","calibration"])
+
+# Backward loop
+targets = define_targets(["efficacy>=0.75","safety>=0.9"])
+backward_results = backward_chain(data, targets, search="minimal_pathway")
+
+# Synthesis
+report = synthesize(seq_metrics, nonseq_metrics, forward_results, backward_results)
+export_json(report, "nanozyme_gyro_report.json")
