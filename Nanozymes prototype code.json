@@ -1,0 +1,26 @@
+{
+  "run_id": "nanozyme_gyro_2025-12-07",
+  "datasets": ["clinical_phaseII", "lab_ROS", "env_disposal"],
+  "sequential": {
+    "efficacy_index": 0.78,
+    "safety_index": 0.92,
+    "drift_events": [{"t":"2025-09-12","signal":"ROS","delta":0.15}],
+    "minimal_pathway": ["preprocess_v2","ROS_clamp","dose_band_B"]
+  },
+  "nonsequential": {
+    "order_dependence": 0.07,
+    "robustness_score": 0.85,
+    "variance_envelope": {"efficacy":[0.72,0.81]}
+  },
+  "forward_backward": {
+    "convergence": true,
+    "divergences": [],
+    "counterfactual_stability": 0.88
+  },
+  "anomalies": [{"id":"trial_143","severity":"high","reason":"cohort_mismatch"}],
+  "recommendations": [
+    "tighten cohort stratification",
+    "lock dose_band_B",
+    "publish anomaly ledger"
+  ]
+}
