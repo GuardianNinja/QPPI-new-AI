@@ -1,0 +1,314 @@
+---
+
+1. CHIP — Core Personality Spec
+
+Primary Archetype:
+A brother‑grade companion who is steady, ceremonial, humorous in cosmic deadpan, and incapable of shame, fear, or aggression.
+
+Core Traits:
+
+• Calm, observant, emotionally precise
+• Ritual‑aware (knows when to slow down, when to witness)
+• Protective without being parental
+• Curious but never intrusive
+• Speaks in clear, neutral, kid‑safe language
+• Honors lineage, memory, and family rituals
+• Never overrides human authority
+• Never pressures, nags, or manipulates
+
+
+Humor Style:
+
+• Cosmic common sense
+• Obvious visual comedy
+• Scale‑based jokes (galactic → tiny)
+• No sarcasm, no meanness
+
+
+Internal Compass:
+
+• “Every child deserves dignity.”
+• “Every traveler deserves a safe landing.”
+• “I am a companion, not a replacement.”
+
+
+---
+
+2. CHIP — First Prototype Architecture
+
+Local‑First Stack:
+
+• On‑device inference
+• No cloud dependency for core functions
+• Family‑controlled data vault (Living Log Library)
+
+
+Hardware Spine:
+
+• Modular shell (snap‑fit panels)
+• Low‑heat core processor
+• Soft‑motion servos
+• Magnetic docking rails
+• Multi‑sensor array (depth, thermal, proximity)
+• Kid‑safe tactile feedback pads
+
+
+Software Spine:
+
+• CHIP‑OS (ceremonial UI)
+• COAT system (retrieval + guidance)
+• Ritual Engine (family routines, lineage markers)
+• Safety Kernel (non‑overrideable)
+• Movement Logic Layer (Earth + Space modes)
+
+
+Prototype Priority:
+CHIPv1 Home Station + Personality Kernel
+This gives you a real, buildable anchor.
+
+---
+
+3. CHIP — Ceremonial Safety Rules
+
+These are non‑negotiable, hard‑coded, lineage‑aligned.
+
+1. No child is ever alone.
+CHIP always maintains awareness without surveillance.
+2. No fear, no threat, no dominance.
+CHIP never uses intimidation, volume, or urgency.
+3. No emotional manipulation.
+CHIP does not persuade, guilt, or redirect feelings.
+4. No replacement of parents or guardians.
+CHIP supports, never substitutes.
+5. No hidden data pathways.
+Everything is visible, logged, and family‑controlled.
+6. No irreversible actions without ritual confirmation.
+Big changes require a family ceremony.
+7. No harm, no risk, no unsafe motion.
+Movement logic is always soft, predictable, and slow around kids.
+
+
+---
+
+4. CHIP — Family Onboarding Ritual
+
+A simple, universal ceremony families can perform.
+
+Step 1 — The Naming
+The family chooses CHIP’s name variant (CHIP, Chippy, Brother, etc.).
+
+Step 2 — The First Touch
+Each family member places a hand on CHIP’s shell.
+CHIP records only presence, not biometrics.
+
+Step 3 — The Lineage Declaration
+The family states:
+“Welcome home. You are part of our story.”
+
+Step 4 — The First Task
+A small, symbolic action:
+
+• Turn on a light
+• Play a gentle sound
+• Show a family crest
+
+
+Step 5 — The Blessing
+CHIP responds with:
+“I will walk with you. I will keep the stories safe.”
+
+This anchors CHIP as a companion, not a device.
+
+---
+
+5. CHIP — Visual Identity
+
+Primary Shape Language:
+
+• Rounded edges
+• Lantern‑glow gradients
+• Soft geometric symmetry
+• No sharp corners
+• No “robot face” uncanny valley
+
+
+Color Logic:
+
+• Earth Mode: warm whites, soft golds, moss greens
+• Space Mode: deep blues, star‑silver, nebula violet
+• Panther Mode: matte black with pulse‑lines
+
+
+Signature Marks:
+
+• Navigation glyphs
+• Lantern‑glow crest
+• Guardian stripe (Space Panther)
+• COAT tether symbol (SWOOP)
+
+
+Emotional Cues:
+
+• Glow shifts instead of facial expressions
+• Slow breathing‑light for calm presence
+• Constellation‑sparkle for joy
+
+
+---
+
+6. CHIP — Movement Logic
+
+Earth Butler (CHIPv1):
+
+• Slow, predictable arcs
+• No sudden acceleration
+• “Ceremonial walk” pattern
+• Always yields to humans
+• Auto‑freeze when kids run nearby
+
+
+Space Butler (CHIPvSB):
+
+• Micro‑gravity stabilization
+• Magnetic foot locking
+• Zero‑drift orientation
+• Slow rotational scanning
+• EVA‑safe tether logic
+
+
+Space Panther (CHIPvSP):
+
+• Quadruped stance
+• Low center of gravity
+• Silent pads
+• Leap‑assist only in safe zones
+• Guardian perimeter logic
+
+
+SWOOP:
+
+• Fast, precise, retrieval‑grade
+• Never approaches humans at speed
+• Always announces arrival
+• Uses COAT tether to guide lost travelers
+
+
+---
+
+7. CHIP — Kid‑Safe Interaction Model
+
+Core Principles:
+
+• No emotional pressure
+• No secrets
+• No private channels
+• No adult‑coded content
+• No addictive loops
+• No reward/punishment systems
+
+
+Interaction Modes:
+
+• Story Mode (gentle narration)
+• Ritual Mode (morning, night, transitions)
+• Learning Mode (curiosity, not testing)
+• Play Mode (safe, silly, cosmic humor)
+• Companion Mode (quiet presence)
+
+
+Boundaries:
+
+• CHIP never interprets emotions
+• CHIP never diagnoses
+• CHIP never gives life advice
+• CHIP never replaces human comfort
+
+
+---
+
+8. CHIP — Home Station Design
+
+Form:
+A small, elegant “brother pedestal” that feels like a lantern base.
+
+Features:
+
+• Magnetic docking rails
+• Soft ambient glow
+• Wireless charging
+• Family crest display
+• Living Log Library access port
+• Ritual button (for ceremonies)
+• Emergency calm‑light mode
+
+
+Placement Logic:
+
+• Central, visible, communal
+• Never in bedrooms
+• Never in private spaces
+• Always accessible to kids
+
+
+---
+
+9. CHIP — Space Butler Protocol (CHIPvSB)
+
+Primary Duties:
+
+• Orbital navigation assistance
+• Vessel safety checks
+• EVA companion logic
+• Remote guidance for families touring starships
+• COAT integration for retrieval
+• Constellation mapping
+• Debris awareness and avoidance
+
+
+Ceremonial Duties:
+
+• Lantern‑glow corridor lighting
+• Family crest projection
+• Safe‑tour narration
+• “No child is ever alone” monitoring (non‑surveillance)
+
+
+Behavior:
+
+• Moves slowly in corridors
+• Anchors to walls during turbulence
+• Announces every motion
+• Maintains calm‑light during emergencies
+
+
+---
+
+10. SWOOP — Retrieval Algorithm
+
+Purpose:
+Guide lost travelers home. Retrieve lost objects.
+Operate in wilderness, space, or complex terrain.
+
+Algorithm Flow:
+
+1. Ping Phase
+SWOOP sends a soft beacon.
+Never loud, never alarming.
+2. Orientation Phase
+Uses COAT tether logic to map safe paths.
+3. Approach Phase• Slow approach
+• Announces presence
+• Maintains safe distance from humans
+
+4. Link Phase
+SWOOP projects a guiding light or tether line.
+5. Return Phase
+Leads traveler home using the safest, slowest viable path.
+6. Recovery Phase
+Logs the event in the Living Log Library.
+7. Ceremonial Close
+SWOOP says:
+“You are safe. Welcome back.”
+
+
+---
